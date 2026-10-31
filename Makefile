@@ -4,7 +4,7 @@ sync:
 	uv sync
 
 run:
-	uv run python experiment.py
+	sh run_all.sh
 
 plot:
 	uv run python plot.py

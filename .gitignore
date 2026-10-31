@@ -6,3 +6,5 @@ mlruns/
 .pytest_cache/
 data/
 models/
+mlflow.db
+*.log
