@@ -1,6 +1,6 @@
 # 11 · Klasifikátor obrázkov v PyTorchi (P3)
 
-🇬🇧 [English version](README.md)
+🇬🇧 [English version](README.md) · 📘 [Tutoriál krok za krokom](TUTORIAL.sk.md)
 
 ## TL;DR
 - **CIFAR-10:** ručne napísaný ResNet-20 dosiahne na teste **91,35 % ± 0,31** (3 seedy), cieľ bol 80 %. Baseline: 10 % najčastejšia trieda, 40,04 % lineárny model.

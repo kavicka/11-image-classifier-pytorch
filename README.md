@@ -1,6 +1,6 @@
 # 11 · Image classifier in PyTorch (P3)
 
-🇸🇰 [Slovenská verzia](README.sk.md)
+🇸🇰 [Slovenská verzia](README.sk.md) · 📘 [Step-by-step tutorial](TUTORIAL.md)
 
 ## TL;DR
 - **CIFAR-10:** ResNet-20 written by hand reaches **91.35 % ± 0.31** on test (3 seeds), goal was 80 %. Baselines: 10 % majority class, 40.04 % linear model.
