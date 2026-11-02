@@ -9,6 +9,13 @@
 - **Errors:** cat vs dog is 176 of 861 CIFAR errors. Apple pie vs bread pudding is 44 of 115 Food-10 errors.
 - **ONNX:** same test accuracy (95.40 %), logits within 3e-5, 15 ms per image on CPU against 299 ms in PyTorch.
 
+## Start here
+The model receives a picture and must say **what it shows**: perhaps a cat, a car, or a kind of food. It sees many labelled examples, gradually adjusts its weights, and is then evaluated on pictures it did not see during training. **Accuracy** is the share of test pictures with the correct answer.
+
+The project first tries a simple model that treats each pixel as a separate number. It then builds a convolutional network (CNN), which learns small image patterns, and a custom ResNet that can stack more layers. On CIFAR-10, ResNet-20 reaches 91.35% test accuracy versus 40.04% for the simple linear model. For ten kinds of food, the project reuses a network already trained on other images and adapts it to the new pictures; it reaches 94.76%.
+
+Plots show training progress and confused classes, **Grad-CAM** highlights image regions associated with a prediction, and ONNX export shows how to use the model outside the training script. Test numbers describe these datasets, not an ability to recognize any picture.
+
 ## Problem
 Train an image classifier with my own training loop on Apple Silicon, first from scratch, then with transfer learning, and track every experiment. The roadmap goals: ≥ 80 % on CIFAR-10 with my own CNN, ≥ 90 % top-1 on a 10-class Food-101 subset, ≥ 10 MLflow runs comparing learning rate and augmentation, a confusion matrix. Stretch goals: Grad-CAM and ONNX export.
 
@@ -22,7 +29,7 @@ Train an image classifier with my own training loop on Apple Silicon, first from
 ## How it works
 
 ### The training loop
-`engine.py` has no framework. One step is always the same five lines:
+`engine.py` uses PyTorch directly, without a higher-level training framework. One step is always the same five lines:
 
 ```python
 logits = model(x)  # forward

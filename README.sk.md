@@ -9,6 +9,13 @@
 - **Chyby:** mačka vs pes je 176 z 861 chýb na CIFAR. Jablkový koláč vs chlebový puding je 44 zo 115 chýb na Food-10.
 - **ONNX:** rovnaká testová presnosť (95,40 %), logity do 3e-5, 15 ms na obrázok na CPU oproti 299 ms v PyTorchi.
 
+## Najprv jednoducho
+Model dostane obrázok a má povedať, **čo na ňom je**: napríklad mačka, auto alebo druh jedla. Dostáva veľa obrázkov so správnou odpoveďou, postupne upravuje svoje váhy a potom sa hodnotí na obrázkoch, ktoré pri učení nevidel. **Presnosť** znamená podiel testovacích obrázkov so správnou odpoveďou.
+
+Projekt najprv skúsi veľmi jednoduchý model, ktorý považuje každý pixel za samostatné číslo. Potom postaví konvolučnú sieť (CNN), ktorá sa učí malé obrazové vzory, a vlastný ResNet, ktorý vie skladať viac vrstiev. Na CIFAR-10 má ResNet-20 testovú presnosť 91,35 % oproti 40,04 % jednoduchého lineárneho modelu. Pri desiatich druhoch jedla projekt znovu použije už predtrénovanú sieť a doladí ju na nové obrázky; dosiahne 94,76 %.
+
+Grafy ukazujú priebeh tréningu a zámenu tried, **Grad-CAM** zvýrazní oblasti obrázka súvisiace s predpoveďou a export do ONNX ukáže použitie modelu mimo trénovacieho skriptu. Čísla z testu merajú tieto konkrétne datasety, nie všeobecnú schopnosť rozpoznať ľubovoľný obrázok.
+
 ## Problém
 Natrénovať klasifikátor obrázkov vlastným trénovacím cyklom na Apple Silicon, najprv od nuly, potom cez transfer learning, a každý experiment zaznamenať. Ciele z roadmapy: ≥ 80 % na CIFAR-10 s vlastnou CNN, ≥ 90 % top-1 na 10 triedach z Food-101, ≥ 10 behov v MLflow porovnávajúcich learning rate a augmentáciu, confusion matrix. Rozšírenia: Grad-CAM a export do ONNX.
 
@@ -22,7 +29,7 @@ Natrénovať klasifikátor obrázkov vlastným trénovacím cyklom na Apple Sili
 ## Ako to funguje
 
 ### Trénovací cyklus
-`engine.py` nepoužíva žiadny framework. Jeden krok je vždy týchto päť riadkov:
+`engine.py` používa PyTorch priamo, bez vyššieho tréningového frameworku. Jeden krok je vždy týchto päť riadkov:
 
 ```python
 logits = model(x)  # forward
